@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EditionsRepository {
 
-    void addEdition();
+    void addEdition(Edition edition);
 
     List<Edition> findAllEditions(User login);
 

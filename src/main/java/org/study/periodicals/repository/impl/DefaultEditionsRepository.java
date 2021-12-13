@@ -14,7 +14,7 @@ public class DefaultEditionsRepository implements EditionsRepository {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public void addEdition() {
+    public void addEdition(Edition edition) {
 
     }
 
