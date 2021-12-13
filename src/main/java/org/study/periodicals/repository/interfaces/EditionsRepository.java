@@ -1,4 +1,4 @@
-package org.study.periodicals.repository;
+package org.study.periodicals.repository.interfaces;
 
 import org.study.periodicals.model.Edition;
 import org.study.periodicals.model.User;
