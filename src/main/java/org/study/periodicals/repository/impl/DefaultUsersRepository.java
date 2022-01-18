@@ -31,9 +31,9 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public void createUser(User user) {
-        String saveUserQuery = "INSERT INTO USERS(FIRST_NAME, LAST_NAME, BIRTHDAY, REGISTER, STATUS, ROLE) " +
-                "VALUES(?,?,?,?,?,?)";
-        jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getBirthday(), user.getRegister(),
+        String saveUserQuery = "INSERT INTO USERS(FIRST_NAME, LAST_NAME, LOGIN, PASSWORD, BIRTHDAY, REGISTER, STATUS, ROLE) " +
+                "VALUES(?,?,?,?,?,?,?,?)";
+        jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getBirthday(), user.getRegister(),
                 user.isStatus(), user.getRole());
 
     }
