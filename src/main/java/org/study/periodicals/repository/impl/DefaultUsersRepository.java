@@ -5,6 +5,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.study.periodicals.model.Payment;
 import org.study.periodicals.model.Role;
@@ -16,8 +19,7 @@ import org.study.periodicals.repository.interfaces.UsersRepository;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Repository
 @AllArgsConstructor
@@ -31,10 +33,10 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public void createUser(User user) {
-        String saveUserQuery = "INSERT INTO USERS(FIRST_NAME, LAST_NAME, LOGIN, PASSWORD, BIRTHDAY, REGISTER, STATUS, ROLE) " +
+        String saveUserQuery = "INSERT INTO PUBLIC.USERS(FIRST_NAME, LAST_NAME, LOGIN, PASSWORD, BIRTHDAY, REGISTER, STATUS, ROLE) " +
                 "VALUES(?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getBirthday(), user.getRegister(),
-                user.isStatus(), user.getRole());
+                user.isStatus(), user.getRole().getRoleId());
 
     }
 
@@ -52,11 +54,11 @@ public class DefaultUsersRepository implements UsersRepository {
             user.setStatus(rs.getBoolean("STATUS"));
             user.setRole(rs.getObject("ROLE", Role.class));
             return user;
-    };
+        };
 
-        return jdbcTemplate.query(findAllUsers,rowMapper);
+        return jdbcTemplate.query(findAllUsers, rowMapper);
 
-}
+    }
 
     @Override
     public User findByLogin(String login) {
@@ -78,12 +80,35 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public User findByStatus(boolean status) {
-        return null;
+        String findByStatusUser = "SELECT * FROM USERS WHERE STATUS=" + status;
+
+        ResultSetExtractor<User> extractor = (rs) -> {
+            User user = new User();
+            user.setFirstName(rs.getString("FIRST_NAME"));
+            user.setLastName(rs.getString("LAST_NAME"));
+            user.setBirthday(rs.getDate("BIRTHDAY"));
+            user.setRegister(rs.getDate("REGISTER"));
+            user.setStatus(rs.getBoolean("STATUS"));
+            user.setRole(rs.getObject("ROLE", Role.class));
+            return user;
+        };
+        return jdbcTemplate.query(findByStatusUser, extractor);
     }
 
     @Override
     public List<Payment> findAllPayments(User user) {
-        return null;
+
+        String findAllPaymentsUsers = "SELECT U.FIRST_NAME, U.LAST_NAME, P.TOTAL_AMOUNT" +
+                " FROM PAYMENTS P, USERS U" +
+                " WHERE U.USERS_ID = P.USERS_ID";
+
+        RowMapper<Payment> rowMapper = (rs, rowNum) -> {
+            Set<Payment> payments = new LinkedHashSet<>();
+            user.setPayments((Set<Payment>) rs.getObject("TOTAL_AMOUNT", Payment.class));
+            payments.contains(user);
+            return (Payment) payments;
+        };
+        return jdbcTemplate.query(findAllPaymentsUsers, rowMapper);
     }
 
     @Override

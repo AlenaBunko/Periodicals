@@ -6,7 +6,7 @@
 </head>
 <body>
 <h3>NEW USER REGISTRATION</h3>
-<form action="/userRegister" method="post">
+<form action="userRegister" method="post">
     <p>
         <label>FirstName</label>
         <input type="text" name="firstName">
@@ -28,22 +28,13 @@
        <input type="password" name="password">
    </p>
     <p>
-        <label>RegistrationDate</label>
-        <input type="date" name="register">
-    </p>
-    <p>
-        <label>Status: active</label>
-        <input type="checkbox" name="status" required="required">
-    </p>
-    <p>
-        <select name="role" required="required">
-            <option value=""> Role</option>
-            <option value="User">User</option>
-            <option value="Admin">Admin</option>
+        <select name="role">
+            <option id="1" value="ADMIN">Admin</option>
+            <option id="2" value="USER"  selected>User</option>
         </select>
     </p>
+    <br>
+    <input type="submit" value="Registration">
 </form>
-<br>
-<button type="submit">Registration</button>
 </body>
 </html>
