@@ -41,6 +41,6 @@ public class AuthController {
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         usersRepository.createUser(user);
-        return "redirect:/userPage";
+        return "userPage";
     }
 }

@@ -18,7 +18,7 @@ public interface UsersRepository {
 
     List<Payment> findAllPayments(User user);
 
-    void addSubscription (User user);
+    void addSubscription (Subscription subscription);
 
     List<Subscription> findAllSubscriptions(User user);
 
@@ -26,5 +26,5 @@ public interface UsersRepository {
 
     void update(User user);
 
-    void delete(Integer id);
+    void deleteUser(Integer id);
 }

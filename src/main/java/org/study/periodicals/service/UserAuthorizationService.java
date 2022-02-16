@@ -4,14 +4,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.study.periodicals.model.User;
 import org.study.periodicals.repository.impl.DefaultUsersRepository;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserAuthorizationService {
 
+    private Map<String, User> users = new HashMap<>();
+
     private DefaultUsersRepository usersRepository;
 
-     private  PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public UserAuthorizationService(DefaultUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
@@ -19,22 +21,25 @@ public class UserAuthorizationService {
     }
 
     public boolean isUserAuthorized(String sessionId) {
-
-        return true;
+        return users.containsKey(sessionId);
 
     }
 
-    public boolean isUserAuthenticated (String login, String password){
+    public boolean isUserAuthenticated(String login, String password) {
         User user = usersRepository.findByLogin(login);
         if (user == null) {
             return false;
         }
-//        if (!user.getPassword().equals(passwordEncoder.encode(password))) {
-//            return false;
-//        }
-        if(!passwordEncoder.matches(password, user.getPassword())){
-            return false;
-        }
-        return true;
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    public void saveSession(String sessionId, String login) {
+        User user = usersRepository.findByLogin(login);
+        users.put(sessionId, user);
+    }
+
+    public void deleteSession(String sessionId){
+        users.remove(sessionId);
+        System.out.println("Мы удалили юзера по ключу "+ sessionId);
     }
 }
