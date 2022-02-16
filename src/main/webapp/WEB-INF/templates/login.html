@@ -1,25 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta  charset="UTF-8">
+    <meta charset="UTF-8">
     <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+
 </head>
+
 <body>
-<h1>User account login</h1>
-<form action="/login" method="post">
-    <p>
-        <label>Login:</label>
-        <input type="text" name="login" placeholder="login">
-        <span id="error" style="color:red"></span>
-    </p>
-    <p>
-        <label>Password:</label>
-        <input type="password" name="password" placeholder="password">
-    </p>
-    <br>
-    <button type="submit">Confirm</button>
-</form>
-<br>
-<a href="userRegister">Registration</a>
+<div class="card text-white">
+    <img src="https://bipbap.ru/wp-content/uploads/2017/06/autumn-beautiful-book-coffee-Favim.com-3402818.jpg"
+         class="card-img" alt="Responsive-image">
+    <div class="card-img-overlay">
+        <div class="container">
+            <h1>User account login</h1>
+            <form action="doLogin" method="post" role="form">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Login</label>
+                        <input type="text" class="form-control" name="login" style="background-color:#B0E0E6"
+                               placeholder="login">
+                    </div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" style="background-color:#B0E0E6"
+                               placeholder="password">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-md">Confirm</button>
+                </div>
+
+            </form>
+            <br>
+            <a href="userRegister">Registration</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

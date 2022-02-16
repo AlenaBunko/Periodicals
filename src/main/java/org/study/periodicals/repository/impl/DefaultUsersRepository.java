@@ -34,7 +34,7 @@ public class DefaultUsersRepository implements UsersRepository {
     @Override
     public void createUser(User user) {
         String saveUserQuery = "INSERT INTO PUBLIC.USERS(FIRST_NAME, LAST_NAME, LOGIN, PASSWORD, BIRTHDAY, REGISTER, STATUS, ROLE) " +
-                "VALUES(?,?,?,?,?,?,?,?)";
+                "VALUES(?,?,?,?,?,?,true,?)";
         jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getBirthday(), user.getRegister(),
                 user.isStatus(), user.getRole().getRoleId());
 
@@ -62,16 +62,20 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public User findByLogin(String login) {
-        String findByLoginUser = "SELECT * FROM USERS WHERE LOGIN=" + login;
+        String findByLoginUser = "SELECT * FROM USERS WHERE LOGIN='" + login + "'";
 
         ResultSetExtractor<User> extractor = (rs) -> {
             User user = new User();
+            if (rs.next())
+                user.setId(rs.getInt("ID"));
+            user.setLogin(rs.getString("LOGIN"));
+            user.setPassword(rs.getString("PASSWORD"));
             user.setFirstName(rs.getString("FIRST_NAME"));
             user.setLastName(rs.getString("LAST_NAME"));
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            user.setRole(rs.getObject("ROLE", Role.class));
+            //          user.setRole(rs.getObject("ROLE", Role.class));
             return user;
         };
 
@@ -80,7 +84,7 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public User findByStatus(boolean status) {
-        String findByStatusUser = "SELECT * FROM USERS WHERE STATUS=" + status;
+        String findByStatusUser = "SELECT * FROM USERS WHERE STATUS='" + status + "'";
 
         ResultSetExtractor<User> extractor = (rs) -> {
             User user = new User();
@@ -112,8 +116,25 @@ public class DefaultUsersRepository implements UsersRepository {
     }
 
     @Override
-    public void addSubscription(User user) {
+    public void update(User user) {
+        String updateUser = "UPDATE USERS SET FIRST_NAME=?, LAST_NAME=?, BIRTHDAY=?, REGISTER=?, STATUS=?, ROLE=? WHERE ID=?";
+        jdbcTemplate.update(updateUser, user.getFirstName(), user.getLastName(), user.getBirthday(), user.getRegister(),
+                user.isStatus(), user.getRole(), user.getId());
+    }
 
+    @Override
+    public void deleteUser(Integer id) {
+        String deleteUser = "DELETE FROM USERS WHERE ID=" + id;
+        jdbcTemplate.update(deleteUser);
+
+    }
+
+    @Override
+    public void addSubscription(Subscription subscription) {
+        String saveSubscriptionQuery = "INSERT INTO PUBLIC.SUBSCRIPTIONS(ACTUAL_PRICE, QUANTITY, START_DATE, FINISH_DATE, SUBSCRIPTION_DATE) " +
+                "VALUES(?,?,?,?,?)";
+        jdbcTemplate.update(saveSubscriptionQuery, subscription.getActualPrice(), subscription.getActualPrice(),subscription.getStartDate(),
+                subscription.getFinishDate(), subscription.getSubscriptionDate(), subscription.getUser());
     }
 
     @Override
@@ -123,20 +144,6 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public void deleteSubscription(User user, Integer id) {
-
-    }
-
-    @Override
-    public void update(User user) {
-        String updateUser = "UPDATE USERS SET FIRST_NAME=?, LAST_NAME=?, BIRTHDAY=?, REGISTER=?, STATUS=?, ROLE=? WHERE ID=?";
-        jdbcTemplate.update(updateUser, user.getFirstName(), user.getLastName(), user.getBirthday(), user.getRegister(),
-                user.isStatus(), user.getRole(), user.getId());
-    }
-
-    @Override
-    public void delete(Integer id) {
-        String deleteUser = "DELETE FROM USERS WHERE ID=" + id;
-        jdbcTemplate.update(deleteUser);
 
     }
 }
