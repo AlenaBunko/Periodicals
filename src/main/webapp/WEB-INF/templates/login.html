@@ -25,12 +25,15 @@
     <div class="card-img-overlay">
         <div class="container">
             <h1>User account login</h1>
-            <form action="doLogin" method="post" role="form">
+            <form action="doLogin" method="post" role="form" class="needs-validation" novalidate>
                 <div class="form-group">
                     <div class="col-md-4">
                         <label>Login</label>
                         <input type="text" class="form-control" name="login" style="background-color:#B0E0E6"
-                               placeholder="login">
+                               placeholder="login" required>
+                        <div class="invalid-feedback text-warning">
+                            Please fill in this field!
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -38,7 +41,10 @@
                     <div class="col-md-4">
                         <label>Password</label>
                         <input type="password" class="form-control" name="password" style="background-color:#B0E0E6"
-                               placeholder="password">
+                               placeholder="password" required>
+                        <div class="invalid-feedback text-warning">
+                            Please fill in this field!
+                        </div>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary btn-md">Confirm</button>
@@ -51,4 +57,24 @@
     </div>
 </div>
 </body>
+
+<script>
+ (function () {
+  'use strict'
+
+  var forms = document.querySelectorAll('.needs-validation')
+
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
 </html>

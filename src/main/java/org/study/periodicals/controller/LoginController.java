@@ -1,5 +1,7 @@
 package org.study.periodicals.controller;
 
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.study.periodicals.service.UserAuthorizationService;
@@ -16,9 +18,9 @@ public class LoginController {
     }
 
     @GetMapping("/")
-        public String index(){
-            return "index";
-        }
+    public String index() {
+        return "index";
+    }
 
     @GetMapping("/loginPage")
     public String loginPage() {
@@ -26,10 +28,11 @@ public class LoginController {
     }
 
     @PostMapping("/doLogin")
-    public String doLogin(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, HttpServletRequest request) {
+    public String doLogin(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, HttpServletRequest request, Authentication auth) {
         if (!userAuthorizationService.isUserAuthenticated(login, password)) {
             return "redirect:loginPage";
         }
+
         userAuthorizationService.saveSession(request.getSession(true).getId(), login);
         return "redirect:personal/userPage";
     }

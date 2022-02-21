@@ -1,27 +1,31 @@
 package org.study.periodicals.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.study.periodicals.configuration.MongoConnectorAdapter;
+import org.study.periodicals.configuration.MongoSessionManager;
 import org.study.periodicals.model.User;
 import org.study.periodicals.repository.impl.DefaultUsersRepository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 public class UserAuthorizationService {
 
-    private Map<String, User> users = new HashMap<>();
+    MongoSessionManager mongoSessionManager;
 
     private DefaultUsersRepository usersRepository;
 
     private PasswordEncoder passwordEncoder;
 
-    public UserAuthorizationService(DefaultUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UserAuthorizationService(DefaultUsersRepository usersRepository, PasswordEncoder passwordEncoder, MongoSessionManager mongoSessionManager) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mongoSessionManager = mongoSessionManager;
     }
 
     public boolean isUserAuthorized(String sessionId) {
-        return users.containsKey(sessionId);
+        MongoConnectorAdapter adapter = new MongoConnectorAdapter(new User(sessionId));
+        return mongoSessionManager.findKey(adapter);
 
     }
 
@@ -34,12 +38,14 @@ public class UserAuthorizationService {
     }
 
     public void saveSession(String sessionId, String login) {
-        User user = usersRepository.findByLogin(login);
-        users.put(sessionId, user);
+        User userByLogin = usersRepository.findByLogin(login);
+        MongoConnectorAdapter adapter = new MongoConnectorAdapter(new User(sessionId, userByLogin.getLogin()));
+        mongoSessionManager.saveSession(adapter);
     }
 
-    public void deleteSession(String sessionId){
-        users.remove(sessionId);
-        System.out.println("Мы удалили юзера по ключу "+ sessionId);
+
+    public void deleteSession(String sessionId) {
+       MongoConnectorAdapter adapter = new MongoConnectorAdapter(new User(sessionId));
+       mongoSessionManager.deleteSessionUser(adapter);
     }
 }

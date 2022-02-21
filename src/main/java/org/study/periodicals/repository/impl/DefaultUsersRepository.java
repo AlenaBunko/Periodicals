@@ -1,13 +1,9 @@
 package org.study.periodicals.repository.impl;
 
 import lombok.AllArgsConstructor;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.study.periodicals.model.Payment;
 import org.study.periodicals.model.Role;
@@ -17,8 +13,6 @@ import org.study.periodicals.repository.interfaces.UsersRepository;
 
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 @Repository
@@ -34,7 +28,7 @@ public class DefaultUsersRepository implements UsersRepository {
     @Override
     public void createUser(User user) {
         String saveUserQuery = "INSERT INTO PUBLIC.USERS(FIRST_NAME, LAST_NAME, LOGIN, PASSWORD, BIRTHDAY, REGISTER, STATUS, ROLE) " +
-                "VALUES(?,?,?,?,?,?,true,?)";
+                "VALUES(?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getBirthday(), user.getRegister(),
                 user.isStatus(), user.getRole().getRoleId());
 

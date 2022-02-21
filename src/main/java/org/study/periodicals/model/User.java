@@ -3,6 +3,7 @@ package org.study.periodicals.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.Set;
@@ -15,6 +16,8 @@ public class User {
 
     private Integer id;
 
+    private String sessionId;
+
     private String firstName;
 
     private String lastName;
@@ -23,8 +26,10 @@ public class User {
 
     private String password;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date register;
 
     private boolean status;
@@ -39,5 +44,14 @@ public class User {
 
     public User() {
 
+    }
+
+    public User(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public User(String sessionId, String login) {
+        this.sessionId = sessionId;
+        this.login = login;
     }
 }
