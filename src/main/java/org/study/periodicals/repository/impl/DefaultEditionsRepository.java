@@ -39,17 +39,18 @@ public class DefaultEditionsRepository implements EditionsRepository {
         String findByTitle = "SELECT * FROM EDITIONS WHERE TITLE='" + title + "'";
 
         ResultSetExtractor<Edition> extractor = (rs) -> {
-           Edition edition = new Edition();
+            Edition edition = new Edition();
             if (rs.next())
                 edition.setId(rs.getInt("ID"));
-            edition.setTitle(rs.getString("TITLE"));
-            edition.setIndex(rs.getInt("INDEX"));
-            edition.setPublishingHouse(rs.getString("PUBLISHING_HOUSE"));
-            edition.setRecommendedPrice(rs.getInt("RECOMMENDED_PRICE"));
-            return edition;
-        };
+                edition.setTitle(rs.getString("TITLE"));
+                edition.setIndex(rs.getInt("INDEX"));
+                edition.setPublishingHouse(rs.getString("PUBLISHING_HOUSE"));
+                edition.setRecommendedPrice(rs.getInt("RECOMMENDED_PRICE"));
+                return edition;
 
+        };
         return jdbcTemplate.query(findByTitle, extractor);
+
     }
 
     @Override
@@ -66,7 +67,7 @@ public class DefaultEditionsRepository implements EditionsRepository {
 
         String saveEditionChanges = "UPDATE EDITIONS SET TITLE=?, INDEX=?, PUBLISHING_HOUSE=?, RECOMMENDED_PRICE=?";
 
-        jdbcTemplate.update(saveEditionChanges, edition.getTitle(), edition.getIndex(), edition.getPublishingHouse(),edition.getRecommendedPrice());
+        jdbcTemplate.update(saveEditionChanges, edition.getTitle(), edition.getIndex(), edition.getPublishingHouse(), edition.getRecommendedPrice());
     }
 
     @Override

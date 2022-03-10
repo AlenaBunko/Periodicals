@@ -29,6 +29,6 @@ public class EditionController {
     @GetMapping("/personal/searchEdition")
     public String editionSearch(String title){
         editionsRepository.findEditionByTitle(title);
-        return "catalog";
+        return "addSubscriptions";
     }
 }

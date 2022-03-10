@@ -11,8 +11,8 @@ public class AuthorizationConfiguration {
 
 
     @Bean
-    public UserAuthorizationService userAuthorizationService(DefaultUsersRepository usersRepository, PasswordEncoder passwordEncoder) {
-        return new UserAuthorizationService(usersRepository, passwordEncoder);
+    public UserAuthorizationService userAuthorizationService(DefaultUsersRepository usersRepository, PasswordEncoder passwordEncoder, MongoSessionManager mongoSessionManager) {
+        return new UserAuthorizationService(usersRepository, passwordEncoder, mongoSessionManager);
     }
 
 }
