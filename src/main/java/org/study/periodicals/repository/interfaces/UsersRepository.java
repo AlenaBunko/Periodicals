@@ -20,9 +20,9 @@ public interface UsersRepository {
 
     void addSubscription (Subscription subscription);
 
-    List<Subscription> findAllSubscriptions(User user);
+    List<Subscription> findAllSubscriptions();
 
-    void deleteSubscription(User user,Integer id);
+    void deleteSubscription(User user, Integer id);
 
     void update(User user);
 

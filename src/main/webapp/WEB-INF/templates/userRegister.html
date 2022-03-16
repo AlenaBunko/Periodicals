@@ -18,12 +18,13 @@
     <style>
         body{
         padding: 30px;
-
     </style>
+
 </head>
 
 <body>
 <h3>NEW USER REGISTRATION</h3>
+
 <div class="container">
     <form action="userRegister" method="post" role="form" class="needs-validation" novalidate>
         <div class="form-group col-md-4">
@@ -51,6 +52,11 @@
         <div class="form-group col-md-4">
             <label>Login</label>
             <input type="text" class="form-control" name="login" style="background-color:#B0E0E6" required>
+            <div class="alert alert-danger alert-dismissible fade show" id="message" style="display:none">
+                <h4 class="alert-heading"><i class="bi-exclamation-octagon-fill"></i> Oops! User with this login already
+                    exist</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
             <div class="invalid-feedback">
                 Please fill in this field!
             </div>
@@ -75,7 +81,7 @@
             </div>
         </div>
         <br>
-        <input type="submit" class="btn btn-success btn-md" value="Registration">
+        <input type="submit" class="btn btn-success btn-md" onclick="loadXMLDoc()" value="Registration">
         <br>
         <br>
         <input type="button" onclick="history.back();" value="Назад"/>
@@ -100,6 +106,31 @@
       }, false)
     })
 })()
-
 </script>
+<!-- handling existing login in AJAX -->
+<script type="text/javascript">
+function loadXMLDoc(){
+    var xmlhttp;
+ if (window.XMLHttpRequest) {
+        xmlhttp=new XMLHttpRequest();
+    }
+    else{
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function(){
+      if (xmlhttp.readyState==4)
+       {
+          if (xmlhttp.status==200)
+              err.innerHTML=xmlhttp.responseText;
+
+       }
+    }
+
+    xmlhttp.open("POST", true);
+    xmlhttp.send();
+
+    var err = document.getElementById("message");
+    err.style.display = "block";
+}
+    </script>
 </html>

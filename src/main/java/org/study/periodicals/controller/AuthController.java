@@ -3,6 +3,7 @@ package org.study.periodicals.controller;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,6 @@ public class AuthController {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @GetMapping("/userRegister")
     public String registration() {
         return "userRegister";
@@ -36,6 +36,10 @@ public class AuthController {
 
     @PostMapping("/userRegister")
     public String userRegistration(@ModelAttribute("user") User user) throws ServletException {
+        User userFromDb = usersRepository.findByLogin(user.getLogin());
+        if (userFromDb!= null){
+          return "userRegister";
+        }
         user.setRegister(new Date());
         user.setStatus(true);
         String encryptedPassword = passwordEncoder.encode(user.getPassword());

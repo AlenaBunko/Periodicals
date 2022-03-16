@@ -46,11 +46,13 @@ public class DefaultUsersRepository implements UsersRepository {
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            user.setRole(rs.getObject("ROLE", Role.class));
+            user.setRole(Role.getById(rs.getInt("ROLE")));
             return user;
         };
 
-        return jdbcTemplate.query(findAllUsers, rowMapper);
+        List<User> allUsers = jdbcTemplate.query(findAllUsers, rowMapper);
+
+        return allUsers;
 
     }
 
@@ -69,7 +71,7 @@ public class DefaultUsersRepository implements UsersRepository {
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            //          user.setRole(rs.getObject("ROLE", Role.class));
+            user.setRole(Role.getById(rs.getInt("ROLE")));
             return user;
         };
 
@@ -87,7 +89,7 @@ public class DefaultUsersRepository implements UsersRepository {
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            user.setRole(rs.getObject("ROLE", Role.class));
+            user.setRole((Role) rs.getObject("ROLE"));
             return user;
         };
         return jdbcTemplate.query(findByStatusUser, extractor);
@@ -132,7 +134,7 @@ public class DefaultUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<Subscription> findAllSubscriptions(User user) {
+    public List<Subscription> findAllSubscriptions() {
         return null;
     }
 
@@ -141,3 +143,6 @@ public class DefaultUsersRepository implements UsersRepository {
 
     }
 }
+
+
+

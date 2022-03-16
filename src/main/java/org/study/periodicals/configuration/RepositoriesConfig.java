@@ -20,8 +20,6 @@ import javax.sql.DataSource;
 
 @PropertySource("classpath:application.properties")
 @Configuration
-@EnableWebMvc
-@ComponentScan(basePackages = "org.study.periodicals")
 public class RepositoriesConfig implements WebMvcConfigurer {
 
     @Value("${datasource.driver}")

@@ -9,6 +9,7 @@ import org.study.periodicals.model.Edition;
 import org.study.periodicals.repository.impl.DefaultEditionsRepository;
 
 import javax.servlet.ServletException;
+import java.util.List;
 
 @Controller
 public class EditionController {
@@ -20,15 +21,17 @@ public class EditionController {
     }
 
 
-    @PostMapping("/personal/addNewEdition")
+    @PostMapping("/adminPage/addNewEdition")
     public String addEdition(@ModelAttribute("edition") Edition edition) throws ServletException {
         editionsRepository.addEdition(edition);
-        return "userPage";
+        return "catalog";
     }
 
-    @GetMapping("/personal/searchEdition")
-    public String editionSearch(String title){
-        editionsRepository.findEditionByTitle(title);
-        return "addSubscriptions";
+
+
+    @GetMapping("/catalog")
+    public String catalogEditions(Model model){
+        List<Edition> editionList = editionsRepository.findAllEditions();
+        return "catalog";
     }
 }

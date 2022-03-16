@@ -3,9 +3,11 @@ package org.study.periodicals.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -15,8 +17,6 @@ import java.util.Set;
 public class User {
 
     private Integer id;
-
-    private String sessionId;
 
     private String firstName;
 
@@ -46,12 +46,4 @@ public class User {
 
     }
 
-    public User(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public User(String sessionId, String login) {
-        this.sessionId = sessionId;
-        this.login = login;
-    }
 }
