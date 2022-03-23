@@ -1,5 +1,6 @@
 package org.study.periodicals.repository.interfaces;
 
+import org.study.periodicals.model.Edition;
 import org.study.periodicals.model.Payment;
 import org.study.periodicals.model.Subscription;
 import org.study.periodicals.model.User;
@@ -26,5 +27,9 @@ public interface UsersRepository {
 
     void update(User user);
 
+    void updateUser(User user);
+
     void deleteUser(Integer id);
+
+    Edition addEditionInSubscription(String title);
 }

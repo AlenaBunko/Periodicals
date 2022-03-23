@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
@@ -13,8 +13,10 @@ table, th, td {
 </head>
 
 <body>
-<h3>ALL USERS</h3>
-<table class="table table-bordered table-hover horizontal-align">
+
+<h4>ALL USERS</h4>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<table>
     <thead>
     <tr>
         <th style="width: 5%">Id</th>
@@ -29,7 +31,7 @@ table, th, td {
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
-        <td><span th:text="${user.id}" style="text-align: center"></span></td>
+        <td th:text="${user.id}"></td>
         <td th:text="${user.firstName}"></td>
         <td th:text="${user.lastName}"></td>
         <td th:text="${#dates.format(user.birthday, 'yyyy MMM d')}" style="text-align: center"></td>
@@ -44,4 +46,5 @@ table, th, td {
 </table>
 
 </body>
+
 </html>

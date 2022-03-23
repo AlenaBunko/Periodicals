@@ -1,8 +1,5 @@
 package org.study.periodicals.controller;
 
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +35,7 @@ public class LoginController {
             if (userAuthorizationService.findRole(request.getSession(true).getId()) == 1){
                 return "redirect:adminPage";
             }
-
-            return "redirect:personal/userPage";
+                return "redirect:personal/userPage";
         }
     }
 

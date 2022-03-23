@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.study.periodicals.model.Edition;
 import org.study.periodicals.model.Subscription;
 import org.study.periodicals.model.User;
-import org.study.periodicals.repository.impl.DefaultEditionsRepository;
-import org.study.periodicals.repository.impl.DefaultUsersRepository;
+import org.study.periodicals.service.SubscriptionService;
 
 import java.util.Date;
 import java.util.List;
@@ -15,12 +14,17 @@ import java.util.List;
 @Controller
 public class SubscriptionController {
 
-    DefaultUsersRepository usersRepository;
-    DefaultEditionsRepository editionsRepository;
+    private SubscriptionService subscriptionService;
 
-    public SubscriptionController(DefaultUsersRepository usersRepository, DefaultEditionsRepository editionsRepository) {
-        this.usersRepository = usersRepository;
-        this.editionsRepository = editionsRepository;
+    public SubscriptionController(SubscriptionService subscriptionService) {
+        this.subscriptionService = subscriptionService;
+    }
+
+    @GetMapping("/personal/mySubscriptions")
+    public String allMySubscriptions(Model model) {
+        List<Subscription> subscriptionsList = subscriptionService.getAllSubscriptions();
+        model.addAttribute("subscriptionsList", subscriptionsList);
+        return "userSubscriptions";
     }
 
     @GetMapping("/personal/addFormSubscription")
@@ -29,20 +33,23 @@ public class SubscriptionController {
     }
 
     @PostMapping("/personal/addFormSubscription")
-    public String addSubscription(@ModelAttribute Subscription subscription, @ModelAttribute Edition edition) {
-//         if (editionsRepository.findEditionByTitle(edition.getTitle())){
-//            return "catalog";
-//        }
-            usersRepository.addSubscription(subscription);
-
-        return "redirect:personal/mySubscriptions";
+    public String addSubscription(@RequestParam String title, @RequestParam Integer quantity,
+                                  @RequestParam Date startDate, @RequestParam Date finishDate,
+                                  @RequestParam Date subscriptionDate, @SessionAttribute User user) throws Exception {
+        Subscription subscription = null;
+        subscription = subscriptionService.createSubscription(title, quantity, finishDate, startDate, subscriptionDate, user);
+        user.getSubscriptions().add(subscription);
+        return "redirect:personal/payment";
     }
 
-    @GetMapping("/personal/mySubscriptions")
-    public String allMySubscriptions(Model model) {
-        List<Subscription> subscriptionsList = usersRepository.findAllSubscriptions();
-        model.addAttribute("subscriptionsList", subscriptionsList);
-        return "userSubscriptions";
-    }
 
 }
+
+
+
+
+
+
+
+
+

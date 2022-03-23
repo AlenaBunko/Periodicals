@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AuthorizationFilter extends HttpFilter {
@@ -36,22 +34,18 @@ public class AuthorizationFilter extends HttpFilter {
 
         } else {
             String currentUri = req.getRequestURI();
-            securityConfig.getRolesToUrls().get(1).forEach(it -> {
+            for (Pattern it : securityConfig.getRolesToUrls().get(1)) {
                 boolean matches = it.pattern().matches(currentUri);
-                if (!matches){
+                if (!matches) {
                     try {
-                        res.sendRedirect(contextPath + "/personal/*");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    try {
-                        res.sendRedirect(currentUri);
+                        res.sendRedirect(contextPath + "/errorPage");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-            });return;
+            }
+            return;
+
         }
 
         chain.doFilter(req, res);

@@ -6,7 +6,6 @@ import org.study.periodicals.repository.impl.DefaultUsersRepository;
 
 import java.util.List;
 
-@Service
 public class AdminService {
 
     private DefaultUsersRepository usersRepository;

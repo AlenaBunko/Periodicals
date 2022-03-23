@@ -50,7 +50,7 @@ public class MongoSessionManager extends AbstractMongoClientConfiguration {
 
     public void saveSession(String sessionId, User user, Role role) {
         Document document = new Document("sessionId", sessionId)
-                .append("user", user.getLogin())
+                .append("user", user.getUsername())
                 .append("role", Role.getById(user.getRole().getRoleId()).getRoleId());
 
         collection.insertOne(document);

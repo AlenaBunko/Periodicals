@@ -3,18 +3,19 @@ package org.study.periodicals.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 
 @Data
 @Builder
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+
+public class User{
 
     private Integer id;
 
@@ -22,7 +23,7 @@ public class User {
 
     private String lastName;
 
-    private String login;
+    private String username;
 
     private String password;
 
@@ -41,9 +42,5 @@ public class User {
     private Set<Edition> editions;
 
     private Set<Payment> payments;
-
-    public User() {
-
-    }
 
 }

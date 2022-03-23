@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 
 @Data
@@ -37,4 +38,5 @@ public class Subscription {
     public Subscription() {
 
     }
+
 }

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.study.periodicals.model.Edition;
 import org.study.periodicals.repository.impl.DefaultEditionsRepository;
 
@@ -30,8 +31,10 @@ public class EditionController {
 
 
     @GetMapping("/catalog")
-    public String catalogEditions(Model model){
+    public ModelAndView catalogEditions(ModelAndView modelAndView){
         List<Edition> editionList = editionsRepository.findAllEditions();
-        return "catalog";
+        modelAndView.setViewName("catalog");
+        modelAndView.addObject(editionList);
+        return modelAndView;
     }
 }
