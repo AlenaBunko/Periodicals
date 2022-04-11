@@ -54,12 +54,20 @@ public class DefaultEditionsRepository implements EditionsRepository {
     }
 
     @Override
-    public List<Edition> findAllEditions(User login) {
+    public List<Edition> findAllEditions() {
         String findAllEditions = "SELECT * FROM EDITIONS";
 
         RowMapper<Edition> rowMapper = DefaultEditionsRepository::mapRow;
 
         return jdbcTemplate.query(findAllEditions, rowMapper);
+    }
+
+    @Override
+    public List<Edition> findEditionsByUser(int id) {
+        String findEditions = "SELECT * EDITIONS INNER JOIN USERS ON EDITIONS.USERS_ID = USER.ID";
+        RowMapper<Edition> rowMapper = DefaultEditionsRepository::mapRow;
+
+        return jdbcTemplate.query(findEditions, rowMapper);
     }
 
     @Override

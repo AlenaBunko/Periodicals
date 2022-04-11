@@ -5,10 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.study.periodicals.model.Payment;
-import org.study.periodicals.model.Role;
-import org.study.periodicals.model.Subscription;
-import org.study.periodicals.model.User;
+import org.study.periodicals.model.*;
 import org.study.periodicals.repository.interfaces.UsersRepository;
 
 
@@ -29,7 +26,7 @@ public class DefaultUsersRepository implements UsersRepository {
     public void createUser(User user) {
         String saveUserQuery = "INSERT INTO PUBLIC.USERS(FIRST_NAME, LAST_NAME, LOGIN, PASSWORD, BIRTHDAY, REGISTER, STATUS, ROLE) " +
                 "VALUES(?,?,?,?,?,?,?,?)";
-        jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getBirthday(), user.getRegister(),
+        jdbcTemplate.update(saveUserQuery, user.getFirstName(), user.getLastName(), user.getUsername(), user.getPassword(), user.getBirthday(), user.getRegister(),
                 user.isStatus(), user.getRole().getRoleId());
 
     }
@@ -46,7 +43,7 @@ public class DefaultUsersRepository implements UsersRepository {
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            user.setRole(rs.getObject("ROLE", Role.class));
+            user.setRole(Role.getById(rs.getInt("ROLE")));
             return user;
         };
 
@@ -62,14 +59,14 @@ public class DefaultUsersRepository implements UsersRepository {
             User user = new User();
             if (rs.next())
                 user.setId(rs.getInt("ID"));
-            user.setLogin(rs.getString("LOGIN"));
+            user.setUsername(rs.getString("LOGIN"));
             user.setPassword(rs.getString("PASSWORD"));
             user.setFirstName(rs.getString("FIRST_NAME"));
             user.setLastName(rs.getString("LAST_NAME"));
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            //          user.setRole(rs.getObject("ROLE", Role.class));
+            user.setRole(Role.getById(rs.getInt("ROLE")));
             return user;
         };
 
@@ -87,7 +84,7 @@ public class DefaultUsersRepository implements UsersRepository {
             user.setBirthday(rs.getDate("BIRTHDAY"));
             user.setRegister(rs.getDate("REGISTER"));
             user.setStatus(rs.getBoolean("STATUS"));
-            user.setRole(rs.getObject("ROLE", Role.class));
+            user.setRole((Role) rs.getObject("ROLE"));
             return user;
         };
         return jdbcTemplate.query(findByStatusUser, extractor);
@@ -110,7 +107,7 @@ public class DefaultUsersRepository implements UsersRepository {
     }
 
     @Override
-    public void update(User user) {
+    public void updateUser(User user) {
         String updateUser = "UPDATE USERS SET FIRST_NAME=?, LAST_NAME=?, BIRTHDAY=?, REGISTER=?, STATUS=?, ROLE=? WHERE ID=?";
         jdbcTemplate.update(updateUser, user.getFirstName(), user.getLastName(), user.getBirthday(), user.getRegister(),
                 user.isStatus(), user.getRole(), user.getId());
@@ -127,12 +124,12 @@ public class DefaultUsersRepository implements UsersRepository {
     public void addSubscription(Subscription subscription) {
         String saveSubscriptionQuery = "INSERT INTO PUBLIC.SUBSCRIPTIONS(ACTUAL_PRICE, QUANTITY, START_DATE, FINISH_DATE, SUBSCRIPTION_DATE) " +
                 "VALUES(?,?,?,?,?)";
-        jdbcTemplate.update(saveSubscriptionQuery, subscription.getActualPrice(), subscription.getActualPrice(),subscription.getStartDate(),
-                subscription.getFinishDate(), subscription.getSubscriptionDate(), subscription.getUser());
+        jdbcTemplate.update(saveSubscriptionQuery, subscription.getActualPrice(), subscription.getQuantity(),subscription.getStartDate(),
+                subscription.getFinishDate(), subscription.getSubscriptionDate(), subscription.getUser().getId());
     }
 
     @Override
-    public List<Subscription> findAllSubscriptions(User user) {
+    public List<Subscription> findAllSubscriptions() {
         return null;
     }
 
@@ -140,4 +137,17 @@ public class DefaultUsersRepository implements UsersRepository {
     public void deleteSubscription(User user, Integer id) {
 
     }
+
+    @Override
+    public void update(User user) {
+
+    }
+
+    @Override
+    public Edition addEditionInSubscription(String title) {
+        return null;
+    }
 }
+
+
+

@@ -11,7 +11,9 @@ public interface EditionsRepository {
 
     Edition findEditionByTitle(String title);
 
-    List<Edition> findAllEditions(User login);
+    List<Edition> findAllEditions();
+
+    List<Edition> findEditionsByUser(int id);
 
     void updateEdition (Edition edition);
 

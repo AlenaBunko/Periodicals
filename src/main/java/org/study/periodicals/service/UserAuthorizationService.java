@@ -1,17 +1,13 @@
 package org.study.periodicals.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.study.periodicals.configuration.MongoConnectorAdapter;
-import org.study.periodicals.configuration.MongoSessionManager;
 import org.study.periodicals.model.User;
 import org.study.periodicals.repository.impl.DefaultUsersRepository;
-
-import java.util.List;
 
 
 public class UserAuthorizationService {
 
-    MongoSessionManager mongoSessionManager;
+    private MongoSessionManager mongoSessionManager;
 
     private DefaultUsersRepository usersRepository;
 
@@ -24,8 +20,7 @@ public class UserAuthorizationService {
     }
 
     public boolean isUserAuthorized(String sessionId) {
-        MongoConnectorAdapter adapter = new MongoConnectorAdapter(new User(sessionId));
-        return mongoSessionManager.findKey(adapter);
+        return mongoSessionManager.findKey(sessionId);
 
     }
 
@@ -39,13 +34,15 @@ public class UserAuthorizationService {
 
     public void saveSession(String sessionId, String login) {
         User userByLogin = usersRepository.findByLogin(login);
-        MongoConnectorAdapter adapter = new MongoConnectorAdapter(new User(sessionId, userByLogin.getLogin()));
-        mongoSessionManager.saveSession(adapter);
+        mongoSessionManager.saveSession(sessionId, userByLogin, userByLogin.getRole());
     }
 
+    public Integer findRole (String sessionId){
+        Integer role = mongoSessionManager.findRole(sessionId);
+        return role;
+    }
 
     public void deleteSession(String sessionId) {
-       MongoConnectorAdapter adapter = new MongoConnectorAdapter(new User(sessionId));
-       mongoSessionManager.deleteSessionUser(adapter);
+       mongoSessionManager.deleteSessionUser(sessionId);
     }
 }

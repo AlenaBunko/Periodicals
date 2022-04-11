@@ -1,5 +1,6 @@
 package org.study.periodicals.repository.interfaces;
 
+import org.study.periodicals.model.Edition;
 import org.study.periodicals.model.Payment;
 import org.study.periodicals.model.Subscription;
 import org.study.periodicals.model.User;
@@ -20,11 +21,15 @@ public interface UsersRepository {
 
     void addSubscription (Subscription subscription);
 
-    List<Subscription> findAllSubscriptions(User user);
+    List<Subscription> findAllSubscriptions();
 
-    void deleteSubscription(User user,Integer id);
+    void deleteSubscription(User user, Integer id);
 
     void update(User user);
 
+    void updateUser(User user);
+
     void deleteUser(Integer id);
+
+    Edition addEditionInSubscription(String title);
 }

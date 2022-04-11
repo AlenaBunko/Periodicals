@@ -3,6 +3,7 @@ package org.study.periodicals.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -12,17 +13,17 @@ import java.util.Set;
 @Data
 @Builder
 @AllArgsConstructor
-public class User {
+@NoArgsConstructor
+
+public class User{
 
     private Integer id;
-
-    private String sessionId;
 
     private String firstName;
 
     private String lastName;
 
-    private String login;
+    private String username;
 
     private String password;
 
@@ -42,16 +43,4 @@ public class User {
 
     private Set<Payment> payments;
 
-    public User() {
-
-    }
-
-    public User(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public User(String sessionId, String login) {
-        this.sessionId = sessionId;
-        this.login = login;
-    }
 }
