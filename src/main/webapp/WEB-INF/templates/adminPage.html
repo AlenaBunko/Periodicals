@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
@@ -27,7 +27,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="addNewEdition" method="post" role="form">
+                        <form action="adminPage/addNewEdition" method="post" role="form">
                             <div class="form-group">
                                 <label>Title</label>
                                 <input type="text" class="form-control" name="title" style="background-color:#B0E0E6">
@@ -57,9 +57,21 @@
 
         <br> <br>
         <a href="adminPage/allUsers" class="btn btn-success">All users</a>
-        <br>
-        <a href="userPayments">My payments</a>
         <br> <br>
+        <a href="catalog" class="btn btn-success">Catalog of Editions</a>
+        <br> <br>
+
+        <form action="adminPage/delete" method="post" role="form" class="form-inline">
+            <div class="row">
+            <div class="w-25 p-3">
+                <input type="text" class="form-control" name="id" placeholder="enter Id"
+                       aria-describedby="button-addon2">
+            </div>
+            <div class="w-25 p-3">
+                <button class="btn btn-primary" type="submit" id="button-addon2" role="button">Delete Edition</button>
+            </div>
+            </div>
+        </form>
 
         <form action="/logout" method="post">
             <button type="submit" class="btn btn-outline-info" style="position:absolute;top:15px;right:25px">
@@ -93,6 +105,9 @@ if (alertTrigger) {
     alert('Edition added successfully!', 'success')
   })
 }
+
+
+
 
 </script>
 </html>

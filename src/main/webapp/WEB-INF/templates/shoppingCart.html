@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org/ ">
+<head>
+    <meta charset="UTF-8">
+    <title>Subscription Table</title>
+</head>
+<body>
+<h3>SUBSCRIPTION TABLE</h3>
+<div>
+    <form action="personal/showSubscription" method="post" role="form">
+        <p>Subscription Date: <span th:text="${subscription.subscriptionDate}"></span> </p>
+            <table border="1px">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Actual Price</th>
+                    <th>Quantity</th>
+                    <th>Start Date</th>
+                    <th>Finish Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="edition:${cart}">
+                    <td th:text="${edition.title}"></td>
+                    <td th:text="${edition.actualPrice}"></td>
+                    <td><input type="text" id="quantity" name="quantity" th:value="*{quantity}"/></td>
+                    <td><input type="date" id="startDate" name="startDate" th:value="*{startDate}"></td>
+                    <td><input type="date" id="finishDate" name="finishDate" th:value="*{finishDate}"></td>
+                </tr>
+                </tbody>
+            </table>
+        <br><br>
+        <input class="btn btn-primary" type="submit" value="PAY">
+    </form>
+</div>
+<br><br>
+<a href="catalog.html" th:href="@{/catalog}">Add edition</a>
+</body>
+</html>
