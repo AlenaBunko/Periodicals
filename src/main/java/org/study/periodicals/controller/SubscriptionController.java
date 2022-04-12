@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.study.periodicals.model.Edition;
 import org.study.periodicals.model.Subscription;
+import org.study.periodicals.model.User;
 import org.study.periodicals.service.EditionService;
 import org.study.periodicals.service.SubscriptionService;
 
@@ -40,26 +41,32 @@ public class SubscriptionController {
     @PostMapping("/personal/addFormSubscription")// кладу объект edition
     public ModelAndView addEditionInSubscription(@RequestParam(value = "editionId") Integer editionId, HttpSession session) {
         Edition edition = editionService.findEditionById(editionId);
-        String title = edition.getTitle();
-        Integer actualPrice = (edition.getRecommendedPrice() * 120) / 100;
-        //      session.getAttribute(title);
-//        Object priceAttribute = session.getAttribute(String.valueOf(actualPrice));
-        List<Object> titleAndPriceOfEdition = Arrays.asList(title, actualPrice);
- //       session.setAttribute("cart", titleAndPriceOfEdition);
-        ModelAndView view = new ModelAndView("shoppingCart");
-        view.addObject("cart",titleAndPriceOfEdition);
+        session.setAttribute("title", edition.getTitle());
+        session.setAttribute("actualPrice", ((edition.getRecommendedPrice() * 120) / 100));
+        String title = (String) session.getAttribute("title");
+        Integer actualPrice = (Integer) session.getAttribute("actualPrice");
+        ModelAndView view = new ModelAndView("redirect:/personal/showSubscription");
+        view.addObject("title", title);
+        view.addObject("actualPrice", actualPrice);
         return view;
     }
 
+    @GetMapping("/personal/showSubscription")
+    public String cartOfEditions() {
+        return "shoppingCart";
+    }
 
     @PostMapping("/personal/showSubscription") //отрисовка объекта Edition
-    public String formSubscription(@ModelAttribute Subscription subscription) {
+    public String formSubscription(@ModelAttribute Subscription subscription, @SessionAttribute User user, @SessionAttribute Edition edition) {
         Subscription subscriptionOfUser = subscriptionService.getSubscriptionById(subscription.getId());
         if (subscriptionOfUser != null) {
             subscription.setSubscriptionDate(new Date());
+   //         subscription.setEditions((Set<Edition>) edition);
+            user.getSubscriptions().add(subscription);
             subscriptionService.addSubscriptionToUser(subscription);
             return "redirect:personal/confirmOrder";
         }
+
         return "shoppingCart";
     }
 
