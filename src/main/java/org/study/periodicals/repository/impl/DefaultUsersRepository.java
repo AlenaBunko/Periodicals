@@ -93,9 +93,9 @@ public class DefaultUsersRepository implements UsersRepository {
     @Override
     public List<Payment> findAllPayments(User user) {
 
-        String findAllPaymentsUsers = "SELECT U.FIRST_NAME, U.LAST_NAME, P.TOTAL_AMOUNT" +
+        String findAllPaymentsUsers = "SELECT U.FIRST_NAME, U.LAST_NAME, P.TOTAL_AMOUNT, " +
                 " FROM PAYMENTS P, USERS U" +
-                " WHERE U.USERS_ID = P.USERS_ID";
+                " WHERE U.ID = P.USERS_ID";
 
         RowMapper<Payment> rowMapper = (rs, rowNum) -> {
             Set<Payment> payments = new LinkedHashSet<>();
@@ -122,10 +122,10 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public void addSubscription(Subscription subscription) {
-        String saveSubscriptionQuery = "INSERT INTO PUBLIC.SUBSCRIPTIONS(ACTUAL_PRICE, QUANTITY, START_DATE, FINISH_DATE, SUBSCRIPTION_DATE) " +
-                "VALUES(?,?,?,?,?)";
+        String saveSubscriptionQuery = "INSERT INTO PUBLIC.SUBSCRIPTIONS(ACTUAL_PRICE, QUANTITY, START_DATE, FINISH_DATE, SUBSCRIPTION_DATE, USERS_ID, EDITIONS_ID) " +
+                "VALUES(?,?,?,?,?,?,?,?)";
         jdbcTemplate.update(saveSubscriptionQuery, subscription.getActualPrice(), subscription.getQuantity(),subscription.getStartDate(),
-                subscription.getFinishDate(), subscription.getSubscriptionDate(), subscription.getUser().getId());
+                subscription.getFinishDate(), subscription.getSubscriptionDate(), subscription.getUser().getId(), subscription.getEditions());
     }
 
     @Override
@@ -145,6 +145,7 @@ public class DefaultUsersRepository implements UsersRepository {
 
     @Override
     public Edition addEditionInSubscription(String title) {
+        String saveEditionInSubscription = "INSERT INTO PUBLIC.EDITIONS(TITLE)";
         return null;
     }
 }

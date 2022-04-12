@@ -35,8 +35,8 @@ public class DefaultEditionsRepository implements EditionsRepository {
     }
 
     @Override
-    public Edition findEditionByTitle(String title) {
-        String findByTitle = "SELECT * FROM EDITIONS WHERE TITLE='" + title + "'";
+    public Edition findEditionById(Integer id) {
+        String findByTitle = "SELECT * FROM EDITIONS WHERE ID='" + id + "'";
 
         ResultSetExtractor<Edition> extractor = (rs) -> {
             Edition edition = new Edition();
@@ -70,16 +70,11 @@ public class DefaultEditionsRepository implements EditionsRepository {
         return jdbcTemplate.query(findEditions, rowMapper);
     }
 
-    @Override
-    public void updateEdition(Edition edition) {
-
-        String saveEditionChanges = "UPDATE EDITIONS SET TITLE=?, INDEX=?, PUBLISHING_HOUSE=?, RECOMMENDED_PRICE=?";
-
-        jdbcTemplate.update(saveEditionChanges, edition.getTitle(), edition.getIndex(), edition.getPublishingHouse(), edition.getRecommendedPrice());
-    }
 
     @Override
-    public void delete(Integer index) {
+    public void delete(Integer id) {
+        String deleteEdition = "DELETE FROM EDITIONS WHERE ID = ?";
+        jdbcTemplate.update(deleteEdition, id);
 
     }
 

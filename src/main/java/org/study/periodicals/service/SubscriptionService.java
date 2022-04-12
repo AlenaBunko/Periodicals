@@ -6,9 +6,7 @@ import org.study.periodicals.model.User;
 import org.study.periodicals.repository.impl.DefaultEditionsRepository;
 import org.study.periodicals.repository.impl.DefaultUsersRepository;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SubscriptionService {
 
@@ -21,35 +19,40 @@ public class SubscriptionService {
         this.usersRepository = usersRepository;
     }
 
-    public List<Edition> getAllEditions() {
-        return editionsRepository.findAllEditions();
-    }
+//?????????????????????
+//    public Subscription createSubscription(String title,Subscription subscription) throws Exception {
+//        List<Edition> allEditions = editionsRepository.findAllEditions();
+//        Optional<Edition> searchEdition = allEditions
+//                .stream()
+//                .filter(e -> e.getTitle().equalsIgnoreCase(title))
+//                .findFirst();
+//        if (searchEdition.isPresent()) {
+//            searchEdition.get().setSubscription(subscription);
+//            usersRepository.addEditionInSubscription(searchEdition.get().getTitle());
+//        } else {
+//            throw new Exception("The Edition title" + title + " not found");
+//        }
+//        usersRepository.addSubscription(subscription);
+//        return subscription;
+//    }
 
-    public Subscription createSubscription(String title,Integer quantity, Date startDate, Date finishDate, Date subscriptionDate, User user) throws Exception {
-        Subscription subscription = new Subscription();
-        List<Edition> allEditions = editionsRepository.findAllEditions();
-        Optional<Edition> searchEdition = allEditions
-                .stream()
-                .filter(e -> e.getTitle().equalsIgnoreCase(title))
-                .findFirst();
-        if (searchEdition.isPresent()) {
-            searchEdition.get().setSubscription(subscription);
-            usersRepository.addEditionInSubscription(searchEdition.get().getTitle());
-        } else {
-            throw new Exception("The Edition title" + title + " not found");
-        }
-        subscription.setActualPrice((searchEdition.get().getRecommendedPrice()*120)/100);
-        subscription.setQuantity(quantity);
-        subscription.setStartDate(startDate);
-        subscription.setFinishDate(finishDate);
-        subscription.setSubscriptionDate(subscriptionDate);
-        subscription.setUser(user);
+    public Subscription addSubscriptionToUser(Subscription subscription) {
         usersRepository.addSubscription(subscription);
         return subscription;
     }
 
     public List<Subscription> getAllSubscriptions() {
         return usersRepository.findAllSubscriptions();
+    }
+
+
+    public Subscription getSubscriptionById(Integer subscriptionsId) {
+        List<Subscription> subscriptionsList = usersRepository.findAllSubscriptions();
+        Optional<Subscription> optionalSubscription = subscriptionsList.stream()
+                .filter(e -> e.getId().equals(subscriptionsId))
+                .findFirst();
+        Subscription subscription = optionalSubscription.orElseGet(Subscription::new);
+        return subscription;
     }
 }
 

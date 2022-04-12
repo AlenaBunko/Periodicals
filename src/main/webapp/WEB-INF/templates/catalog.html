@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>CATALOG</title>
@@ -11,21 +11,40 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<table class="table caption-top">
-    <caption>CATALOG OF EDITIONS</caption>
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Title</th>
-        <th scope="col">Index</th>
-        <th scope="col">Publishing House</th>
-        <th scope="col">Recommended Price</th>
-        <th scope="col">Delete</th>
-    </tr>
-    </thead>
-<tbody>
-
-</tbody>
-</table>
+<div>
+    <table class="table caption-top" border="1px">
+        <caption>CATALOG OF EDITIONS</caption>
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Index</th>
+            <th scope="col">Publishing House</th>
+            <th scope="col">Recommended Price</th>
+            <th scope="col">Buy</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="edition :${list}">
+            <td th:text="${edition.id}"></td>
+            <td th:text="${edition.title}"></td>
+            <td th:text="${edition.index}"></td>
+            <td th:text="${edition.publishingHouse}"></td>
+            <td th:text="${edition.recommendedPrice}"></td>
+            <td>
+                <form action="shoppingCart.html" method="post"
+                      th:attr="action=@{/personal/addFormSubscription(editionId=${edition.id})}">
+                    <fieldset>
+                        <input type="submit" class="btn btn-success btn-md" value="ADD TO CART">
+                    </fieldset>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<input type="button" onclick="history.back();" value="Back"/>
 </body>
 </html>

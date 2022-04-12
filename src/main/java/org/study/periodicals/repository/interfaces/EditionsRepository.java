@@ -9,13 +9,11 @@ public interface EditionsRepository {
 
     void addEdition(Edition edition);
 
-    Edition findEditionByTitle(String title);
+    Edition findEditionById(Integer Id);
 
     List<Edition> findAllEditions();
 
     List<Edition> findEditionsByUser(int id);
-
-    void updateEdition (Edition edition);
 
     void delete (Integer index);
 }

@@ -16,6 +16,7 @@ table, th, td {
 
 <h4>ALL USERS</h4>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<form action="adminPage/allUsers" method="get">
 <table>
     <thead>
     <tr>
@@ -34,8 +35,8 @@ table, th, td {
         <td th:text="${user.id}"></td>
         <td th:text="${user.firstName}"></td>
         <td th:text="${user.lastName}"></td>
-        <td th:text="${#dates.format(user.birthday, 'yyyy MMM d')}" style="text-align: center"></td>
-        <td th:text="${#dates.format(user.register, 'yyyy MMM d')}" style="text-align: center"></td>
+        <td th:text="${#dates.format(user.birthday, 'yyyy MM dd')}" style="text-align: center"></td>
+        <td th:text="${#dates.format(user.register, 'yyyy MM dd')}" style="text-align: center"></td>
         <td th:text="${user.status}"></td>
         <td th:text="${user.role}"></td>
         <td style="text-align: center"><a th:href="@{'/delete/{id}'(id=${user.id})}"><i class="fa fa-trash"
@@ -44,7 +45,10 @@ table, th, td {
     </tr>
     </tbody>
 </table>
-
+    <br>
+    <br>
+    <input type="button" onclick="history.back();" value="Back"/>
+</form>
 </body>
 
 </html>

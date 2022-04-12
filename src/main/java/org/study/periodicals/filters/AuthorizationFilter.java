@@ -31,22 +31,23 @@ public class AuthorizationFilter extends HttpFilter {
 
         if (!userAuthorized) {
             res.sendRedirect(contextPath + "/loginPage");
-
-        } else {
-            String currentUri = req.getRequestURI();
-            for (Pattern it : securityConfig.getRolesToUrls().get(1)) {
-                boolean matches = it.pattern().matches(currentUri);
-                if (!matches) {
-                    try {
-                        res.sendRedirect(contextPath + "/errorPage");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
             return;
-
         }
+//        else {
+//            String currentUri = req.getRequestURI();
+//            for (Pattern it : securityConfig.getRolesToUrls().get(1)) {
+//                boolean matches = it.pattern().matches(currentUri);
+//                if (!matches) {
+//                    try {
+//                        res.sendRedirect(contextPath + "/errorPage");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//            return;
+//
+//        }
 
         chain.doFilter(req, res);
     }

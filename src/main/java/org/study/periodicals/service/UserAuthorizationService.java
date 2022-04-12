@@ -1,5 +1,6 @@
 package org.study.periodicals.service;
 
+import org.bson.types.ObjectId;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.study.periodicals.model.User;
 import org.study.periodicals.repository.impl.DefaultUsersRepository;
